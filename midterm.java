@@ -530,4 +530,4 @@ Examples
         // Push the temporarily removed element back.
         stack.push(top);
     }
-}
+} 
