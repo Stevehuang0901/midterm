@@ -142,8 +142,8 @@ int f(int x){
             }
             swap(arr, i, j);
         }
-        swap(arr, left, i);
-        return i;
+        swap(arr, left, j);
+        return j;
     }
     public static void swap(int[] arr, int i, int j) {
         int temp = arr[i];
@@ -174,20 +174,23 @@ int f(int x){
     5 | 2 | 9 |  4 |  3 |  8 |
      */
 
-    /*quicksort(arr, 0, 5)
+    /*
+quicksort(arr, 0, 5)
 │
-├─ Partition (pivot = 8) → p = 4, array becomes [5, 2, 4, 3, 8, 9]
-│   ├─ Left: quicksort(arr, 0, 3)
-│   │   │
-│   │   ├─ Partition (pivot = 3) → p = 1, array becomes [2, 3, 4, 5, 8, 9]
-│   │   │   ├─ Left: quicksort(arr, 0, 0)  (Base case)
-│   │   │   └─ Right: quicksort(arr, 2, 3)
-│   │   │         │
-│   │   │         ├─ Partition (pivot = 5) → p = 3, array remains [2, 3, 4, 5, 8, 9]
-│   │   │         │   ├─ Left: quicksort(arr, 2, 2)  (Base case)
-│   │   │         │   └─ Right: quicksort(arr, 4, 3) (Base case)
-│   │   │
-│   └─ Right: quicksort(arr, 5, 5)  (Base case)
+├─ Partition (pivot = 5) → p = 3
+│   • swap(2, 4) → [5, 2, 3, 4, 9, 8]
+│   • swap(0, 3) → [4, 2, 3, 5, 9, 8]
+│   → array: [4, 2, 3, 5, 9, 8]
+│
+├─ Left: quicksort(arr, 0, 2)
+│   ├─ Partition (pivot = 4) → p = 2
+│   │   • swap(0, 2) → [3, 2, 4, 5, 9, 8]
+│   │   → array: [3, 2, 4, 5, 9, 8]
+│
+│   ├─ Left: quicksort(arr, 0, 1)
+│   │   ├─ Partition (pivot = 3) → p = 1
+│   │   │   • swap(0, 1) → [2, 3, 4, 5, 9, 8]
+│   │   │   → array: [2, 3, 4, 5, 9, 8]
 
      */
 
