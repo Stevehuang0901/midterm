@@ -10,23 +10,29 @@ public class Midterm {
     You are not allowed to use arrays or convert the integer to a string.
     For example, is the input is 1793, then the output should 10 (7+3).
      */
-    public static int sumPrime(int n) {
-        int sum = 0;
-        while (n > 0) {
-            int digit = n % 10;
-            if (digit == 2 || digit == 3 || digit == 5 || digit == 7) {
-                sum += digit;
-            }
-            n /= 10;
-        }
-            return sum;
-    }
+    static int sumPrimeDigit(int n) {
+		if(n<0) {n=-n;}
+		int sum=0;
+		while(n>0) {
+			int currentDigit = n%10;
+			
+			//check if prime (2,3,5,7 are all numbers that are prime in single digit)
+			if(currentDigit==2||currentDigit==3||currentDigit==5||currentDigit==7) {
+				sum+=currentDigit;
+			}
+			
+			n=n/10;
+		}
+		return sum;
+	}
 
 
     /*
     Exercise Zero.2 (15pts):
     Provide the Output of this Method (not stack trace is needed)
     f(4)
+
+    f(4) output = 31
 int f(int x){
 {
   int y;
@@ -354,61 +360,65 @@ Write the running time to the left of each question in a big font.
     You are allowed to use and call the methods you created in the previous exercises in this exam.
      */
     //Algorithm 1 – Method in Java
-    public static int rankUsingSort(int[] arr, int target) {
-        // Create a copy so as not to alter the original array
-        int[] copy = Arrays.copyOf(arr, arr.length);
-        Arrays.sort(copy); // O(n log n)
-        // Find the first occurrence of target in the sorted array.
-        // Since the array is sorted, duplicates of target will be adjacent.
-        for (int i = 0; i < copy.length; i++) { // O(n)
-            if (copy[i] == target) {
-                return i + 1; // Rank is index+1 (since rank starts at 1)
-            }
-        }
-        return -1; // target not found
-    }
+    static int method1_sort(int[] arr, int target) {
+		sort(arr); //quick sort algorithm in earlier exercise
+		int index=-1;
+		for(int i=0;i<arr.length;i++) {
+			if(arr[i]==target) {
+				index=i+1;
+				break;
+			}
+		}
+		return index;
+	}
 
+    Runtime O(nlog(n))
+
+    
     //Algorithm 2 – Method in Java
-    public static int rankByCounting(int[] arr, int target) {
-        boolean found = false;
-        int countLess = 0;
-        for (int x : arr) { // O(n)
-            if (x < target) {
-                countLess++;
-            }
-            if (x == target) {
-                found = true;
-            }
-        }
-        if (!found) {
-            return -1; // target not present
-        }
-        return countLess + 1; // Rank = count of numbers less than target + 1
-    }
+    static int method2_nonsort(int[] arr,int target) {
+		boolean inArr = false;
+		int rank = 1;
+		for(int i=0;i<arr.length;i++) {
+			if(arr[i]<target) {rank++;}
+			if(arr[i]==target) {inArr=true;}
+		}
+		if(inArr==false) return -1;
+		else {return rank;}
+	}
 
+    Runtime O(n)
+
+    
     //Algorithm 3 – Method in Java
-    public static int rankByDoubleLoop(int[] arr, int target) {
-        int rank = Integer.MAX_VALUE;
-        boolean found = false;
+    static int method3_nonsort(int[] arr,int target) {
+		int min = Integer.MAX_VALUE;
+		int max = Integer.MIN_VALUE;
+		boolean inArr=false;
+		for(int n:arr) {
+			if(target==n) {inArr=true;}
+			if(n<min) {min=n;}
+			if(n>max) {max=n;}
+		}
+		
+		if(!inArr) return -1;
+		
+		int[] count = new int[max-min+1];
+		for(int n:arr) {
+			count[n-min]++;
+		}
+		
+		int rank=1;
+		for(int i=0;i<target-min;i++) {
+			rank+=count[i];
+		}
+		
+		return rank;
+	}
 
-        // Outer loop: check each element.
-        for (int i = 0; i < arr.length; i++) { // O(n)
-            if (arr[i] == target) {
-                found = true;
-                int countLess = 0;
-                // Inner loop: count numbers less than arr[i]
-                for (int j = 0; j < arr.length; j++) { // O(n)
-                    if (arr[j] < arr[i]) {
-                        countLess++;
-                    }
-                }
-                rank = Math.min(rank, countLess + 1);
-            }
-        }
-        return found ? rank : -1;
-    }
+    Runtime O(n)
 
-
+    
     //Exercise Ten (15pts): Provide the Output  (no stack trace required)
     public static void MethodOne(int m, int n) {
         if (n > 0) {
