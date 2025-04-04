@@ -97,6 +97,7 @@ int f(int x){
         }
         System.arraycopy(a, 0, arr, left, right - left + 1);
     }
+    //runing time is O(nlogn)
 
     /*
     Exercise Three (20pts): Show the recursive tree for applying the algorithm to the following array:
@@ -412,17 +413,43 @@ Write the running time to the left of each question in a big font.
     public static void MethodOne(int m, int n) {
         if (n > 0) {
             System.out.println(m);
-            MethodOne(m, n - 1);
+            MethodOne(n, m - 1);
 
-            if (n >= 2) {
-                MethodOne(m, n);
+            if (n > 2) {
+                MethodOne(n, m);
             }
 
-            MethodOne(m - 1, n - 1);
+            MethodOne(n - 1, m - 1);
         }
     }
+    public static void main(String[] args) {
+        MethodOne(4, 1);
+    }
 
-    //4
+    //4|1|3|1|0|0
+    /*
+MethodOne(4,1)
+ ├─ prints 4
+ ├─ MethodOne(1,3)
+ │    ├─ prints 1
+ │    ├─ MethodOne(3,0)       // base: n == 0
+ │    ├─ MethodOne(3,1)
+ │    │     ├─ prints 3
+ │    │     ├─ MethodOne(1,2)
+ │    │     │      ├─ prints 1
+ │    │     │      ├─ MethodOne(2,0)   // base: n == 0
+ │    │     │      └─ MethodOne(1,0)   // base: n == 0
+ │    │     └─ MethodOne(0,2)
+ │    │             ├─ prints 0
+ │    │             ├─ MethodOne(2,-1)  // base: n <= 0
+ │    │             └─ MethodOne(1,-1)  // base: n <= 0
+ │    └─ MethodOne(2,0)       // base: n == 0
+ └─ MethodOne(0,3)
+      ├─ prints 0
+      ├─ MethodOne(3,-1)       // base: n <= 0
+      ├─ MethodOne(3,0)        // base: n == 0
+      └─ MethodOne(2,-1)       // base: n <= 0              
+    */
 
     /*
     Exercise Eleven (20pts): Implement a recursive algorithm in Java to determine whether a
